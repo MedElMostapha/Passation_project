@@ -1,0 +1,158 @@
+<div *ngIf="loaderService.isLoading | async" class=" overlay " style="z-index: 10000 !important">
+  <div class=" loadingio-spinner-ellipsis-mjvyutdz4a">
+    <div class="ldio-7xowz5onix7">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <p class="textChargement">Chargement en cours ... </p>
+</div>
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-white" *ngIf="isAuthenticated()">
+    <!--     Left navbar links-->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" ><i class="fas fa-bars"></i></a>
+      </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <a  class="nav-link">
+                <h4></h4>
+              </a>
+            </li>
+<!--            </li>-->
+    </ul>
+
+<!--     Right navbar links-->
+        <ul class="navbar-nav ml-auto">
+          <!-- Messages Dropdown Menu -->
+
+          <li class="nav-item">
+            <a *ngIf="isAuthenticated()" (click)="logOut()" class="btn btn-danger btn-block">
+              <i class="fas fa-sign-out-alt" style="color: #ffffff"></i> <a style="color: #e0e0e0">Déconnexion</a>
+            </a>
+          </li>
+        </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4" *ngIf="isAuthenticated()">
+    <a routerLink="/Accueil" class="brand-link">
+      <img src="assets/img/credit/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">PASSATION</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="assets/avatar_2x.png" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a class="d-block">{{usernamecnx}}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="font-size: smaller">
+         
+          <li class="nav-item has-treeview menu-open" *ngIf="profilSelection==='ADMIN'||profilSelection==='CONSULTATION'|| profilSelection==='SAISIE'|| profilSelection==='VALIDATION' ">
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a routerLink="/Accueil" class="nav-link">
+                  <i class="fa fa-home nav-icon" aria-hidden="true"></i>
+                  <p>Accueil</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-open" *ngIf="profilSelection==='ADMIN'">
+            <a  class="nav-link" style="color: #007bff">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                Plan Annuel des Achats
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            
+            <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a routerLink="/paa" class="nav-link ">
+                  <i class="fas fa-balance-scale-left nav-icon"></i>
+                  <p>Planification des achats</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a routerLink="/directory" class="nav-link">
+                  <i class="far fa-folder-open nav-icon"></i>
+                  <p>Liste des dossiers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/procedure-list" class="nav-link">
+                    <i class="far fa-file-alt nav-icon"></i>
+                     <p>Liste des procedures</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/etablissement" class="nav-link">
+                  <i class="far fa-folder-open nav-icon"></i>
+                  <p>Etablissements</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="/input" class="nav-link">
+                  <i class="far fa-folder-open nav-icon"></i>
+                  <p>Input budgetaire</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-open" *ngIf="profilSelection==='ADMIN'">
+            <a  class="nav-link" style="color: #007bff">
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Gestion D'utilisateur
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a routerLink="/register" class="nav-link">
+                  <i class="fas fa-user-alt nav-icon"></i>
+                  <p>Gestion du Personnel</p>
+                </a>
+              </li>
+            </ul>
+            
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside >
+    <router-outlet style="font-size: smaller">
+
+    </router-outlet>
+  <!-- Main Footer -->
+  <footer class="main-footer" *ngIf="isAuthenticated()">
+    <strong>Copyright &copy; 2022-2023 <a href="https://www.finances.gov.mr/">Ministère des Finances</a>.</strong>
+
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0.0
+    </div>
+  </footer>
+</div>
+
+
+

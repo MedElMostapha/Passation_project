@@ -1,0 +1,747 @@
+<div [class.offcanvas-show]="showOffcanvas" *ngIf="showOffcanvas" class="offcanvas offcanvas-right bg-light border-left shadow-sm">
+    <div class="offcanvas-header p-3">
+      <button type="button" class="close" aria-label="Close" (click)="toggleOffcanvas(viewType)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 class="offcanvas-title text-primary" >
+
+        Détailles du {{ viewType === 'PAA' ? "Plan annuel d'achat" : 'Procedure' }} | {{ viewType === 'PAA' ? etablissement : detaille?.id }}
+      </h5>
+    </div>
+    <hr>
+    <div class="offcanvas-body p-4 row" *ngIf="detaille">
+
+      
+
+      <!-- Contenu de l'offcanvas pour PAA -->
+      <ng-container *ngIf="viewType === 'PAA'">
+
+        <div class="col-auto">
+
+          <button
+          style="margin-bottom: 20px;"
+              class="btn btn-sm btn-outline-primary"
+              (click)="showNewRow = !showNewRow"
+            >
+              <span class="fas fa-plus"></span> 
+            Ajouter une ligne
+        </button>
+        </div>
+        
+
+        <div class="col-auto mt-30">
+          <div *ngIf="showNewRow" class="mt-2">
+            <form
+              [formGroup]="newRowForm"
+              (ngSubmit)="addNewRow()"
+              class="container"
+            >
+              <div class="row g-2">
+                <div class="col-md-2">
+                  <input
+                    formControlName="inpuBudgetaire"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Imputation"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    formControlName="mntEstimatif"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Montant"
+                  />
+                  <div
+                    *ngIf="
+                      newRowForm.get('mntEstimatif').touched &&
+                      newRowForm.get('mntEstimatif').dirty &&
+                      newRowForm.get('mntEstimatif').errors
+                    "
+                  >
+                    <small
+                      style="color: red"
+                      *ngIf="newRowForm.get('mntEstimatif').errors"
+                    >
+                      Le montant doit être entre 100000 et 400000.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <input
+                    formControlName="objetDepense"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Objet Depense"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    formControlName="datePreviLancement"
+                    type="date"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder=""
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    formControlName="datePreviAttribution"
+                    type="date"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Objet Depense"
+                  />
+                </div>
+                <div class="col-md-2 text-center">
+                  <button
+                    [disabled]="newRowForm.invalid"
+                    class="btn btn-success btn-sm"
+                    type="submit"
+                  >
+                    <i class="bi bi-check2"></i>Confirmer
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+
+          <div *ngIf="modifierRow" class="mt-2 " style="margin-bottom: 20px;">
+            <form
+              [formGroup]="modifierForm"
+              (ngSubmit)="addNewRow()"
+              class="container"
+            >
+              <div class="row g-2">
+                <div class="col-md-2">
+                  <input
+                    formControlName="inpuBudgetaire"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Imputation"
+                  />
+                </div>
+                <input
+                  formControlName="id"
+                  type="hidden"
+                  class="form-control text-center form-control-xs form-control-sm"
+                  placeholder="id"
+                />
+
+                <div class="col-md-2">
+                  <input
+                    formControlName="mntEstimatif"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Montant"
+                  />
+                </div>
+
+                <div class="col-md-2">
+                  <input
+                    formControlName="objetDepense"
+                    type="text"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Objet Depense"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    formControlName="datePreviLancement"
+                    type="date"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder=""
+                  />
+                </div>
+                <div class="col-md-2">
+                  <input
+                    formControlName="datePreviAttribution"
+                    type="date"
+                    class="form-control text-center form-control-xs form-control-sm"
+                    placeholder="Objet Depense"
+                  />
+                </div>
+                <div class="col-md-2 text-center">
+                  <button
+                    [disabled]="modifierForm.invalid"
+                    (click)="modifierPaa(selectedPaa[0]['id'])"
+                    class="btn btn-success btn-sm"
+                    type="submit"
+                  >
+                    <i class="bi bi-check2"></i>Modifier
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+
+       
+
+        <div class="col-md-12 mt-10">
+          <div *ngIf="selectedPaa != null" style="margin-bottom: 20px;align-items: center;margin-left: 40%;">
+            
+            <button
+              [hidden]="selectedPaa[0]['enprocedure']"
+              *ngIf="selectedPaa[0]['isvalidated'] === true"
+              class="btn btn-sm btn-outline-primary"
+              (click)="declancherProcedure($event)"
+              type="button"
+            >
+              <span class="fas fa-check-square"></span>
+              Déclencher la procédure
+            </button>
+            <button
+              *ngIf="selectedPaa[0]['isvalidated'] === false"
+              class="btn btn-sm btn-outline-primary"
+              (click)="validerPaa(selectedPaa[0]['id'])"
+              type="button"
+            >
+              <span class="fas fa-check-square"></span>
+              valider la ligne
+            </button>
+  
+            <button
+              [hidden]="selectedPaa[0]['enprocedure'] === true"
+              *ngIf="
+                selectedPaa && selectedPaa.length > 0 && 'enProcedure';
+                in: selectedPaa[0]
+              "
+              (click)="supprimerPaa(selectedPaa[0]['id'])"
+              class="btn btn-sm btn-outline-danger ml-4"
+              type="button"
+            >
+              Supprimer la ligne
+            </button>
+            <button
+              [hidden]="selectedPaa[0]['enprocedure'] === true"
+              *ngIf="selectedPaa && selectedPaa.length > 0"
+              (click)="modifierbtn()"
+              class="btn btn-sm btn-outline-primary ml-4"
+              type="button"
+            >
+              Modifier la ligne
+            </button>
+  
+            <button
+              [hidden]="selectedPaa[0]['enprocedure'] === true"
+              *ngIf="
+                selectedPaa && selectedPaa.length > 0 && 'enProcedure';
+                in: selectedPaa[0]
+              "
+              class="btn btn-sm btn-outline-info ml-4"
+              (click)="detaillLigne = !detaillLigne"
+            >
+              <i class="bi bi-eye"></i>
+              Detaille de la ligne
+            </button>
+  
+            <!-- <button
+              (click)="CreationDossier($event)"
+              *ngIf="selectedPaa != null"
+              [hidden]="
+                (selectedPaa[0]['enprocedure'] === true &&
+                  selectedPaa[0]['dosssierCree'] === true) ||
+                selectedPaa[0]['enprocedure'] === false ||
+                selectedPaa[0]['modPassation'].id === 2
+              "
+              class="btn btn-sm btn-outline-primary ml-4"
+              type="button"
+            >
+              <span class="fas fa-folder-plus"></span>
+              Creer un dossier
+            </button> -->
+            <!--            [hidden]="!data.enprocedure"-->
+            <!-- <button
+              [hidden]="selectedPaa[0]['enprocedure'] === false"
+              *ngIf="selectedPaa != null"
+              (click)="imprimer(selectedPaa[0]['id'], REPORTS.initiation)"
+              class="btn btn-sm btn-outline-primary ml-4"
+              type="button"
+            >
+              <span class="fas fa-print"></span>
+              Imprimer
+            </button>
+            <button
+              [hidden]="selectedPaa[0]['enprocedure'] === false"
+              *ngIf="selectedPaa != null"
+              (click)="declancherDetail($event)"
+              class="btn btn-sm btn-outline-primary ml-4"
+              type="button"
+            >
+              <span class="fas fa-eye"></span>
+              Detail
+            </button> -->
+            <!-- <button *ngIf="selectedPaa && !selectedPaa[0].enprocedure"
+        (click)="supprimerPaa(selectedPaa[0].id)"
+        class="btn btn-sm btn-outline-danger"
+        type="button">
+  <span class="fas fa-trash"></span> Supprimer
+  </button> -->
+          </div>
+          
+          <div class="row">
+            <ejs-grid
+              (rowSelected)="rowSelected($event)"
+              (rowDeselected)="rowDeselected($event)"
+              [allowSelection]="true"
+              #grid
+              [dataSource]="detaille"
+              id="gridcomp"
+              allowSorting="true"
+              height="350"
+              gridLines="Both"
+              [pageSettings]="pageSettings"
+              
+            >
+              <e-columns>
+                <e-column
+                  field="inpuBudgetaire"
+                  headerText="Input Budgetaire"
+                  textAlign="Center"
+                  width="150"
+                >
+                  <ng-template #template let-detaille class="grid" >
+                    {{ detaille.inpuBudgetaire }}
+                  </ng-template>
+
+                </e-column>
+
+                <e-column
+                  field="objetDepense"
+                  headerText="Objet de depense"
+                  textAlign="Center"
+                  width="150"
+                >
+
+                  <ng-template #template let-detaille class="grid" >
+                    {{ detaille.objetDepense}}
+                  </ng-template>
+
+                </e-column>
+                <e-column
+                  field="typeMarche"
+                  headerText="Type de contrat"
+                  textAlign="Center"
+                  width="150"
+                >
+
+                  <ng-template #template let-detaille class="grid" >
+                    {{ detaille.typeMarche.nom}}
+                  </ng-template>
+
+                </e-column>
+
+                <e-column
+                  field="modPassation"
+                  headerText="Mode de selection"
+                  textAlign="Center"
+                  width="150"
+                >
+
+                  <ng-template #template let-detaille class="grid" >
+                    {{ detaille.modPassation.nom}}
+                  </ng-template>
+
+                </e-column>
+
+                <e-column
+                  field="datePreviLancement"
+                  headerText="Date de previ de lancement"
+                  textAlign="Center"
+                  width="150"
+                >
+                  <ng-template #template let-detaille class="grid" >
+
+                    {{ detaille.datePreviLancement }}
+                  </ng-template>
+                </e-column>
+
+                <e-column
+                  field="datePreviAttribution"
+                  headerText="Date previ d'attribution"
+                  textAlign="Center"
+                  width="150"
+                >
+                  <ng-template #template let-detaille class="grid" >
+
+                    {{ detaille.datePreviAttribution}}
+                  </ng-template>
+                </e-column>
+
+                
+                
+
+                
+
+
+                
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+      </ng-container>
+  
+      <!-- Contenu de l'offcanvas pour Procedure -->
+      <ng-container *ngIf="viewType === 'Procedure'">
+        <div class="col">
+          <div class="mb-4">
+            <h6 class="text-uppercase">Origin</h6>
+            <p>{{ detaille.origin }}</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Destinataire</h6>
+            <p>{{ detaille.destinataire }}</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Source Financière</h6>
+            <p>{{ detaille.sourceFinanciere }}</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Description</h6>
+            <p>{{ detaille.description }}</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Deadline Estimé</h6>
+            <p>{{ detaille.deadlineEstime | date:'longDate' }}</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Montant</h6>
+            <p>{{ detaille.montant }} MRU</p>
+          </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Document d l'initialistion de la  procedure</h6>
+            <div class="fileContainer row ">
+
+              <div class="col">
+
+                <a style="color: blue;cursor: pointer;" (click)="download(detaille.procedureFileNom,'procedures')">{{removeBeforeLastUnderscore( detaille.procedureFileNom )}}</a>
+              </div>
+              
+              <div class="col">
+                <i class="fa-duotone fa-file-arrow-down"></i>
+              </div>
+              
+            </div>
+
+        </div>
+          <div class="mb-4">
+            <h6 class="text-uppercase">Document de la specification du besoin</h6>
+            <div class="fileContainer">
+
+              <div class="col">
+
+                <a style="color: blue;cursor: pointer;"  (click)="download(detaille.besoinFileNom,'besoins')">{{removeBeforeLastUnderscore( detaille.besoinFileNom) }}</a>
+              </div>
+              <div class="col">
+                <i class="fa-duotone fa-file-arrow-down"></i>
+              </div>
+            </div>
+        </div>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="!detaille" class="text-center p-4">
+      <p>Chargement des détails...</p>
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+  
+  <ejs-dialog
+        (beforeOpen)="validation($event)"
+        class="mt-3"
+        id="dialog"
+        isModal="true"
+        [position]="positionModal"
+        #ejDialog
+        header="Detail de la planification des achats"
+        showCloseIcon="true"
+        allowDragging="true"
+        [target]="targetElement"
+        width="560px"
+        style="z-index: 1100;"
+      >
+      <ng-template #content >
+        <div class="dialogContent" >
+          <form
+            [formGroup]="validerFormDeclanchement"
+            (ngSubmit)="createProcedure()"
+            *ngIf="selectedPaa != null"
+          >
+            <div class="table-responsive">
+              <p class="text-center">
+                <strong>
+                  Declanchement sur la ligne : {{ selectedPaa[0]["id"] }}
+                </strong>
+              </p>
+      
+              <div class="container text-center">
+                
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Origin </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      formControlName="origin"
+                      type="text"
+                      placeholder="(Services demandeurs ou utilisateurs)"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Destinataire </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      formControlName="destinataire"
+                      type="text"
+                      placeholder="(Ordonnateur ou son délégataire de pouvoirs)"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Description </span></div>
+                  <div class="col-8">
+                    <textarea
+                      formControlName="description"
+                      class="form-control text-left form-control-xs form-control-sm"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Délai </span></div>
+                  <div class="col-8">
+                    <input
+                      type="date"
+                      formControlName="deadlineEstime"
+                      class="form-control form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span>Source de financement </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      formControlName="sourceFinanciere"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span>Montant alloué </span></div>
+                  <div class="col-8">
+                    <input
+                      type="text"
+                      formControlName="montant"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col mt-2">
+                    <span>Expression de Besoin </span>
+                  </div>
+                  <div class="col-8">
+                    <label class="btn btn-default">
+                      <input
+                        type="file"
+                        (change)="selectFile($event)"
+                        formControlName="file"
+                      />
+                    </label>
+                    <div *ngIf="message != ''" class="text-success text-center" role="alert">
+                      {{ message }}
+                    </div>
+                    <div *ngIf="errorMsg != ''" class="text-red text-center" role="alert">
+                      {{ errorMsg }}
+                    </div>
+                    <div *ngIf="currentFile" class="progress">
+                      <div
+                        class="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        [attr.aria-valuenow]="progress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [ngStyle]="{ width: progress + '%' }"
+                      >
+                        {{ progress }}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col-10"></div>
+                  <div class="col-2">
+                    <button
+                      [disabled]="validerFormDeclanchement.invalid"
+                      class="btn btn-sm btn-success btn-block"
+                      type="submit"
+                    >
+                      Valider
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <br />
+            </div>
+          </form>
+        </div>
+      </ng-template>
+      
+      
+  </ejs-dialog>
+
+
+
+  <ejs-dialog
+
+        *ngIf="detaillLigne"
+        class="mt-3"
+        id="dialog"
+        isModal="true"
+        [position]="positionModal"
+        #ejDialog
+        header="Detail de la ligne"
+        showCloseIcon="true"
+        allowDragging="true"
+        [target]="targetElement"
+        width="560px"
+        height="auto"
+        style="z-index: 1100;"
+      >
+      <ng-template #content >
+        <div class="dialogContent" >
+          
+            <div class="table-responsive">
+              <p class="text-center">
+                <strong>
+                  Detaill de  la ligne : {{ selectedPaa[0]["id"] }}
+                </strong>
+              </p>
+      
+              <div class="container text-center">
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Input Budgetaire </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      value="{{ selectedPaa[0]['inpuBudgetaire'] }}"
+                      type="text"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Objet de Depense </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                    value="{{ selectedPaa[0]['objetDepense'] }}"
+
+                      type="text"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Montant initial </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                    value="{{ selectedPaa[0]['mntEstimatif'] }}"
+
+                      type="text"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Montant restant </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['montantRestant'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Type de  contrat </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['typeMarche']['nom'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span> Mode de  selection </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['modPassation']['nom'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span>Date prévi de lancemment </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['datePreviLancement'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+
+                <div class="row g-2 mt-2">
+                  <div class="col"><span>Date prévi d'attribution </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['datePreviAttribution'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                <div class="row g-2 mt-2">
+                  <div class="col"><span>Nature </span></div>
+                  <div class="col-8">
+                    <input
+                    disabled
+                      type="text"
+                      value="{{ selectedPaa[0]['nature'] }}"
+                      class="form-control text-center form-control-xs form-control-sm"
+                    />
+                  </div>
+                </div>
+                
+                
+              </div>
+              <br />
+            </div>
+        </div>
+      </ng-template>
+  </ejs-dialog>

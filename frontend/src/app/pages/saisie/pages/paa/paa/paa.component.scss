@@ -1,0 +1,45 @@
+.separateLine {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: linear-gradient(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.26)) center/2px 100% no-repeat;
+  grid-gap: 16px;
+}
+
+.input-group {
+  flex-wrap: wrap!important;
+}
+
+.input-group .invalid-feedback {
+  flex-basis: 100%!important;
+}
+
+.exceltemplate{
+
+  background-color: rgb(250, 250, 202);
+  padding: 10px;
+}
+
+
+// .e-recordplusexpand, .e-recordplusexpand .e-icon-gdownarrow::before {
+//   content: "les PAAS de " attr(data-value);
+// }
+
+// .e-grid .e-groupcaption {
+//   display: none;
+// }
+
+// .e-grid .e-grouptopleftcell {
+//   display: none;
+// }
+
+// .e-grid .e-groupdroparea {
+//   display: none;
+// }
+
+// .e-grid .e-grouprow + tr {
+//   display: none;
+// }
+
+// .e-grid .e-grouprow.e-recordplusexpand + tr {
+//   display: table-row;
+// }

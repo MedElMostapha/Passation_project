@@ -1,0 +1,170 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-angular-navigations/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-angular-lists/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-angular-buttons/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-angular-popups/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/bootstrap4.css';
+@import '../node_modules/@syncfusion/ej2-angular-grids/styles/bootstrap4.css';
+
+@import "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css";
+@import "../node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css";
+@import "../node_modules/admin-lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css";
+@import "../node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css";
+@import "../node_modules/admin-lte/plugins/select2/css/select2.min.css";
+@import "../node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css";
+@import "../node_modules/admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css";
+@import "../node_modules/admin-lte/dist/css/adminlte.min.css";
+@import "../node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css";
+@import "../node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css";
+@import "../node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css";
+@import "../node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css";
+@import "../node_modules/bs-stepper/dist/css/bs-stepper.min.css";
+
+@import '~ngx-toastr/toastr';
+
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
+
+/* Uncomment and customize the following styles as needed */
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// body {
+//   width: 100vw;
+//   height: 100vh;
+// }
+
+// ::-webkit-scrollbar {
+//   width: 0px;
+//   background: transparent;
+// }
+
+// .user-menu > .nav-link {
+//   cursor: pointer;
+// }
+
+// .user-menu > .nav-link:after {
+//   content: none;
+// }
+
+// .user-menu > .dropdown-menu {
+//   border-top-left-radius: 0;
+//   border-top-right-radius: 0;
+//   padding: 0;
+//   width: 280px;
+// }
+
+// .user-menu > .dropdown-menu,
+// .user-menu > .dropdown-menu > .user-body {
+//   border-bottom-right-radius: 4px;
+//   border-bottom-left-radius: 4px;
+// }
+
+// .user-menu > .dropdown-menu > li.user-header {
+//   height: 175px;
+//   padding: 10px;
+//   text-align: center;
+// }
+
+// .user-menu > .dropdown-menu > li.user-header > img {
+//   z-index: 5;
+//   height: 90px;
+//   width: 90px;
+//   border: 3px solid;
+//   border-color: transparent;
+//   border-color: rgba(255, 255, 255, 0.2);
+// }
+
+// .user-menu > .dropdown-menu > li.user-header > p {
+//   z-index: 5;
+//   font-size: 17px;
+//   margin-top: 10px;
+// }
+
+// .user-menu > .dropdown-menu > li.user-header > p > small {
+//   display: block;
+//   font-size: 12px;
+// }
+
+// .user-menu > .dropdown-menu > .user-body {
+//   border-bottom: 1px solid #495057;
+//   border-top: 1px solid #dee2e6;
+//   padding: 15px;
+// }
+
+// .user-menu > .dropdown-menu > .user-body::after {
+//   display: block;
+//   clear: both;
+//   content: '';
+// }
+
+// @media (min-width: 576px) {
+//   .user-menu > .dropdown-menu > .user-body a {
+//     background: #ffffff !important;
+//     color: #495057 !important;
+//   }
+// }
+
+// .user-menu > .dropdown-menu > .user-footer {
+//   background-color: #f8f9fa;
+//   padding: 10px;
+// }
+
+// .user-menu > .dropdown-menu > .user-footer::after {
+//   display: block;
+//   clear: both;
+//   content: '';
+// }
+
+// .user-menu > .dropdown-menu > .user-footer .btn-default {
+//   color: #6c757d;
+// }
+
+// @media (min-width: 576px) {
+//   .user-menu > .dropdown-menu > .user-footer .btn-default:hover {
+//     background-color: #f8f9fa;
+//   }
+// }
+
+// .user-menu .user-image {
+//   border-radius: 50%;
+//   float: left;
+//   height: 2.1rem;
+//   margin-right: 10px;
+//   margin-top: -2px;
+//   width: 2.1rem;
+// }
+
+// @media (min-width: 576px) {
+//   .user-menu .user-image {
+//     float: none;
+//     line-height: 10px;
+//     margin-right: 0.4rem;
+//     margin-top: -8px;
+//   }
+// }
+
+// .user-menu .user-image {
+//   height: 1.6rem;
+//   width: 1.6rem;
+//   margin-right: 0;
+//   margin-left: -8px;
+// }
+
+// .content {
+//   padding: 0 0.5rem;
+// }

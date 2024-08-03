@@ -1,0 +1,17 @@
+<div>
+    <!-- Content Header (Page header) -->
+   
+    <section class="content">
+        <ng-select
+            [items]="items"
+            bindLabel="displayName"
+            bindValue="id"
+            [(ngModel)]="selectedItem"
+            (change)="onSelect($event)"
+
+            placeholder="Sélectionnez un établissement">
+        </ng-select>
+    </section>
+    
+  </div>
+  

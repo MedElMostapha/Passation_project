@@ -1,0 +1,158 @@
+<div class="row justify-content-md-end" style="display: none;">
+  <div class="col-md-auto mt-2">
+    <div *ngFor="let alert of alerts" >
+        <alert  [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+    </div>
+  </div>
+  <div class="col-md-auto">
+  </div>
+</div>
+<div class="hold-transition login-page">
+  <ng-template #template2>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Changer Mot de Passe</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="d-flex justify-content-center h-100" style="margin-top: 3%">
+
+      <form #f="ngForm" (ngSubmit)="onChange(f.value)">
+        <div class="form-group">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><strong><i class="bi bi-person"></i></strong></span>
+            </div>
+            <!--           input type="text" name="username" ngModel class="form-control"-->
+            <input type="text" name="username" ngModel class="form-control" placeholder="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><strong><i class="bi bi-key"></i></strong></span>
+            </div>
+            <!--            input type="password" name="password" ngModel class="form-control"-->
+            <input  [type]="typePassword ? 'texte' : 'password'" name="password" ngModel class="form-control" placeholder="Ancien mot de passe">
+            <div class="input-group-append">
+              <!--                <a href=""> </a>-->
+              <button (click)="voirPassword()" class="btn btn-warning" type="button"><i [class]=iconPassword></i></button>
+            </div>
+          </div>
+          <!--            <label style="margin-left: 55%;color: #ffffff" ><input (click)="voirPassword()"  type="checkbox"> voir mot de passe ?</label>-->
+        </div>
+        <div class="form-group">
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><strong><i class="bi bi-key"></i></strong></span>
+            </div>
+            <input  [type]="typePassword ? 'texte' : 'password'" name="npassword" ngModel class="form-control" placeholder="Nouveau mot de passe">
+            <div class="input-group-append">
+
+              <button (click)="voirPassword()" class="btn btn-warning" type="button"><i [class]=iconPassword></i></button>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="msj" style="color: green;text-align: center"> Mise à jour Reussi !</p>
+        <p *ngIf="mserreur" style="color: red;text-align: center"> Informations Incorrectes !</p>
+        <div class="form-group">
+          <input [disabled]="btnValider" type="submit" value="Valider" class="btn btn-outline-primary">
+          <br>
+        </div>
+        <br>
+      </form>
+      <br>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" (click)="modalRef.hide()">Fermer</button>
+    </div>
+  </ng-template>
+  
+  <ng-template #temp>
+    <div class="modal-header">
+      <h6 class="modal-title pull-left">Vous disposez de plusieurs profils, veuillez en choisir un pour cette session</h6>
+      <button type="button" class="close pull-right" aria-label="Close" >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="d-flex justify-content-center h-100" style="margin-top: 3%">
+      <div class="form-group">
+        <label>Profil</label>
+        <ng-select  bindLabel="name"
+                   placeholder="Selection un Profil"
+                   appendTo="body"
+                   [searchable]="true"
+                   [clearable]="true"
+                   [(ngModel)]="selected" (change)="getProfil()" >
+          <ng-option value={{role}} *ngFor="let role of roless " >
+            {{role}}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" >Fermer</button>
+    </div>
+  </ng-template>
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <img src="assets/logo.png " style="width: 30%">
+      </div>
+      <div class="card-header text-center">
+        <a href="#" class="h1"><b>PASSATION</b></a>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Connectez-vous pour démarrer votre session</p>
+
+        <form #f="ngForm" (ngSubmit)="onLogin(f.value,temp)">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><strong><i class="bi bi-person"></i></strong></span>
+            </div>
+            <input type="text" name="nom" ngModel class="form-control" placeholder="Name">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+            <input type="password" name="password" ngModel [type]="typePassword ? 'texte' : 'password'" class="form-control" placeholder="Password">
+            <div class="input-group-append">
+              <button (click)="voirPassword()" class="btn btn-warning" type="button"><i [class]=iconPassword></i></button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+<!--              <div class="icheck-primary">-->
+<!--                <input type="checkbox" id="remember">-->
+<!--                <label for="remember">-->
+<!--                  Remember Me-->
+<!--                </label>-->
+<!--              </div>-->
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <button [disabled]="CheckCon" type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+        <p class="mb-1" (click)="openModal2(template2)" >
+          <a>Changer de Mot de Passe</a>
+        </p>
+<!--        <p class="mb-0">-->
+<!--          <a href="register.html" class="text-center">Register a new membership</a>-->
+<!--        </p>-->
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+

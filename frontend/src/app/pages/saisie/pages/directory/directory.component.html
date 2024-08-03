@@ -1,0 +1,356 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>LISTE DES DOSSIERS</h1>
+        </div>
+        <!--        <div class="col-sm-6">-->
+        <!--          <ol class="breadcrumb float-sm-right">-->
+        <!--            <li class="breadcrumb-item"><a href="#">Accueil</a></li>-->
+        <!--            <li class="breadcrumb-item active">Gestion utilisateur</li>-->
+        <!--          </ol>-->
+        <!--        </div>-->
+      </div>
+    </div>
+  </section>
+  <section class="contentSection">
+    <div class="container-fluid">
+      <div class="col-md-12 text-center">
+
+        <div #container class='root-container'></div>
+        <ejs-dialog (beforeOpen)="validation($event)" class="mt-3" id='dialog' isModal='true' [position]='positionModal'
+                    #ejDialog header="Detail de la planification des achats "
+                    showCloseIcon='true'
+                    allowDragging='true'
+                    height="auto"
+                    [target]='targetElement' width='560px'>
+          <ng-template #content>
+            <div class="dialogContent">
+              <form [formGroup]="validerFormLettres" (ngSubmit)="upload()" *ngIf="selectedDirectory!=null">
+                <div class="table-responsive ">
+                  <div class="container text-center">
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Fournisseur 1  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='nomFournissuer1'
+                               placeholder="Nom du fournisseur 1"
+                               type="text" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Fournisseur 2  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='nomFournissuer2'
+                               placeholder=" Nom du fournisseur 2"
+                               type="text" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Fournisseur 3  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='nomFournissuer3'
+                               placeholder=" Nom du fournisseur 3"
+                               type="text" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Nom Autorité Contractante  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                        disabled
+                                formControlName='nonAutoriteContractante'
+                               placeholder=" Nom Autorité Contractante"
+                               type="text" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Date Limite Depot  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='dateLimiteDepot'
+                                type="datetime-local" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Date Overture Plis  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='dateOverturePlis'
+                                type="datetime-local" >
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Date Anterieure Depot  </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                                formControlName='dateAnterieurDepot'
+                                type="datetime-local" >
+                      </div>
+                    </div>
+
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span>Lieu Overture Plis </span></div>
+                      <div class="col-8" >
+                        <input  class="text-center form-control form-control-xs form-control-sm"
+                        disabled
+                                formControlName='lieuOverturePlis'
+                                placeholder=" Nom Autorité Contractante"
+                                type="text" >
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-8">
+                      </div>
+                      <div class="col-4">
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col-10 mt-2"> </div>
+                      <div class="col-2 mt-2" > <button [disabled]="validerFormLettres.invalid " class="btn btn-success btn-sm" >Valider</button></div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </ejs-dialog>
+        <ejs-dialog (beforeOpen)="validation($event)" class="mt-3" id='dialogPlis' isModal='true' [position]='positionModal'
+                    #ejDialogPlis header="Creation d'un nouveau plis"
+                    showCloseIcon='true'
+                    allowDragging='true'
+                    [target]='targetElement' width='560px'>
+          <ng-template #content>
+            <div class="dialogContent">
+              <form [formGroup]="formPostPlis" (ngSubmit)="validerCreationPlis()">
+                <div class="table-responsive ">
+
+                  <div class="container text-center">
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Lettre (Nom Fournisseur)  </span></div>
+                      <div class="col-8" >
+                        <ng-select
+                          (click)="getLettresByQuery(data[0].id)"
+                          [(ngModel)]="selectedPlis"
+                          [clearable]="true"
+                          [searchable]="true"
+                          bindLabel="name"
+                          formControlName="idLettre"
+                          placeholder="Selectionner une lettre"
+                        >
+                          <ng-option value="{{lettre.id}}" *ngFor="let lettre of lettersByQuery">
+                            {{lettre.nomFournissuer}}
+                          </ng-option>
+                        </ng-select>
+<!--                        <select formControlName="idLettre" (click)="getLettresByQuery(data[0].id)"  class="text-center form-control form-control-xs form-control-sm"-->
+<!--                        >-->
+<!--&lt;!&ndash;                          <option selected value="{{null}}"></option>&ndash;&gt;-->
+<!--                          <option value="{{lettre.id}}" *ngFor="let lettre of lettersByQuery"> {{lettre.nomFournissuer}} </option>-->
+<!--                        </select>-->
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Date Reception  </span></div>
+                      <div class="col-8" >
+                        <input formControlName="dateReception" class="text-center form-control form-control-xs form-control-sm"
+                               type="datetime-local">
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Poste Ou Courrier Express  </span></div>
+                      <div class="col-8" >
+                        <select formControlName="posteOuCourrierExpress" class="text-center form-control form-control-xs form-control-sm"
+                        >
+                          <option selected disabled >Selection type de reception</option>
+                          <option value="{{PLIS.poste}}">POSTE </option>
+                          <option value="{{PLIS.courrier}}">COURRIER </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span> Nom Porteur </span></div>
+                      <div class="col-8" >
+                        <input placeholder="PORTEUR" formControlName="porteur" class="text-center form-control form-control-xs form-control-sm"
+                              type="text">
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col"><span>Observation </span></div>
+                      <div class="col-8" >
+                        <textarea placeholder="OBSERVATION"  formControlName="observation" class="text-center form-control form-control-xs form-control-sm"
+                        ></textarea>
+                      </div>
+                    </div>
+<!--                    <div class="row g-2 mt-2">-->
+<!--                      <div class="col mt-2"><span>Expression de Besoin signé  </span></div>-->
+<!--                      <div class="col-8">-->
+
+
+<!--                        <label class="btn btn-default btn-sm form-control form-control-xs form-control-sm">-->
+<!--                          <input formControlName="file" type="file" (change)="selectFile($event)"/>-->
+<!--                        </label>-->
+<!--                        <div *ngIf="message!=''" class="text-success text-center"-->
+<!--                             role="alert">{{ message }}</div>-->
+<!--                        <div *ngIf="errorMsg!=''" class="text-red text-center"-->
+<!--                             role="alert">{{ errorMsg }}</div>-->
+<!--                        <div *ngIf="currentFile" class="progress">-->
+<!--                          <div-->
+<!--                            class="progress-bar progress-bar-info progress-bar-striped"-->
+<!--                            role="progressbar"-->
+<!--                            attr.aria-valuenow="{{ progress }}"-->
+<!--                            aria-valuemin="0"-->
+<!--                            aria-valuemax="100"-->
+<!--                            [ngStyle]="{ width: progress + '%' }"-->
+<!--                          >-->
+<!--                            {{ progress }}%-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+                    <div class="row mt-2">
+                      <div class="col-8">
+<!--                        {{formPostPlis.value | json}}-->
+                      </div>
+                      <div class="col-4">
+                        <!--                                <button [disabled]="formCreationDir.invalid "-->
+                        <!--                                        class="btn btn-sm btn-success btn-block"-->
+                        <!--                                        type="submit">valider-->
+                        <!--                                </button>-->
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col-10 mt-2"></div>
+                      <div class="col-2 mt-2">
+                        <button [disabled]="formPostPlis.invalid" class="btn btn-success btn-sm">Valider</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </ejs-dialog>
+        <ejs-dialog (beforeOpen)="validation($event)" class="mt-3" id='dialogImpressionLettres' isModal='true' [position]='positionModal'
+                    #dialogImpressionLettres header="Listes des lettres du dossier"
+                    showCloseIcon='true'
+                    allowDragging='true'
+                    [target]='targetElement' width='560px'>
+          <ng-template #content>
+            <div class="dialogContent">
+              <div class="row ">
+                <div class="col-1"></div>
+                <div class="col-10">
+                  <table class="table table-striped table-hover table-bordered ">
+                    <thead>
+                    <tr>
+                      <th scope="col">Nom du Fournisseur</th>
+                      <th scope="col">Impression lettre</th>
+                      <th scope="col">Impression Reçu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let fornisseur of initVal;let i = index;">
+                      <td class="text-center">{{fornisseur.nomFournissuer}} </td>
+                      <td  class="text-center"><button class="btn btn-outline-light"> <i  (click)="imprimer(fornisseur.id,reportType.lettres)" class="text-info fas fa-download"></i></button></td>
+                      <td *ngIf="fornisseur.plis" class="text-center">
+                        <button *ngIf="fornisseur.plis.length>0" class="btn btn-outline-light">
+                          <i  (click)="imprimer(fornisseur.plis[0].idplis,reportType.plis)" class="text-info fas fa-print"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="col-1"></div>
+              </div>
+            </div>
+          </ng-template>
+        </ejs-dialog>
+        <div *ngIf="selectedDirectory!=null" >
+          <button
+            [hidden]="data[0].lettreCree"
+            (click)="declancherLettres($event)"
+            class="btn btn-sm btn-outline-primary"
+                  type="button"><span
+            class="fas fa-check-square"></span>
+            Creation des lettres
+
+          </button>
+          <button
+            [hidden]="!data[0].lettreCree"
+            (click)="declancherImpressionLettres($event,data[0].id)"
+            class="btn btn-sm btn-outline-primary mr-2"
+                  type="button"><span
+            class="fas fa-print"></span>
+           Impression des lettres
+
+          </button>
+          <button
+            [hidden]="!data[0].lettreCree"
+            (click)="declancherPlis($event,data[0].id)"
+            class="btn btn-sm btn-outline-primary"
+                  type="button"><span
+            class="fas fa-folder-plus"></span>
+           Creer un Plis
+
+          </button>
+
+        </div>
+        <hr class="col-md-5">
+      </div>
+      <div class="col-md-12">
+        <ejs-grid
+          (rowSelected)='rowSelected($event)'
+          (rowDeselecting)='rowDeselected($event)'
+          [allowSelection]="true"
+          #grid
+          [dataSource]='data'
+          id="gridcomp" allowSorting='true'
+          height=360
+          gridLines="Both"
+        >
+          <e-columns>
+            <e-column field='reference' headerText='reference' textAlign='Center' width=80>
+              <ng-template #template let-data>
+                {{data.reference}}
+              </ng-template>
+            </e-column>
+            <e-column field='inpuBudgetaire' headerText='Imputation Budgetaire' textAlign='Center' width=100>
+              <ng-template #template let-data>
+                {{data.paa.inpuBudgetaire}}
+              </ng-template>
+            </e-column>
+            <e-column field='idPaa' headerText='Code PAA' textAlign='Center' width=100>
+              <ng-template #template let-data>
+                {{data.paa.id}}
+              </ng-template>
+            </e-column>
+            <e-column field='objetDepense' headerText='Objet de la Depense Marché' textAlign='Center' width=120>
+              <ng-template #template let-data>
+                {{data.paa.objetDepense }}
+              </ng-template>
+            </e-column>
+            <e-column field='fileNameOnDisc' headerText='Document' textAlign='Center' width=120>
+              <ng-template #template let-data>
+                <a  (click)="download(data.procedure.besoinFileNom,'besoins')" target="_blank"><i class="text-info fas fa-download"></i> </a>
+              </ng-template>
+            </e-column>
+<!--            <e-column field='objetDepense' headerText='objet Depense' textAlign='Center' width=120>-->
+<!--              <ng-template #template let-data>-->
+<!--                {{data.objetDepense }}-->
+<!--              </ng-template>-->
+<!--            </e-column>-->
+          </e-columns>
+        </ejs-grid>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+

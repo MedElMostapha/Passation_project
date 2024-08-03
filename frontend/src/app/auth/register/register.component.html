@@ -1,0 +1,218 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Gestion utilisateur</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active">Gestion utilisateur</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Ajout d'un nouvel utilisteur</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="register">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group" >
+                      <label class="control-label">Matricule</label>
+                      <input type="text" (ngModelChange)="clearInput()" [ngClass]=" {'is-invalid': (errorMatricule)}"class="form-control" formControlName="username">
+                      <div class="invalid-feedback"*ngFor="let alert of alertsMatricule" >
+                          <alert style="position: absolute;" [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+
+                  </div>
+                </div>
+                <br><br>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Nom</label>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" formControlName="nom" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Prenom</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" formControlName="prenom">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Profils</label>
+                        <ng-select
+                          formControlName="roles"
+                          [multiple]="true"
+                          [closeOnSelect]="false"
+                          [hideSelected]="true"
+                          bindLabel="name"
+                          placeholder="Selectionner un ou plusieur Profils"
+                          [(ngModel)]="selectedRoles">
+                          <ng-option *ngFor="let role of tabroles" value="{{role.roleName}}"> {{role.id}}-{{role.roleName}}</ng-option>
+                        </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Fonction</label>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control"formControlName="fonction">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+    <!--                <label>Mot de Passe</label>-->
+    <!--                <div class="input-group mb-3">-->
+    <!--                  <input type="text" class="form-control" formControlName="password">-->
+    <!--                </div>-->
+                    <div class="form-group">
+                      <label for="password">Mot de Passe</label>
+                      <div [ngClass]="{'is-invalid': (register.controls['password'].errors && register.controls['password'].dirty), 'is-valid': !register.controls['password'].errors}" >
+                        <input type="password" [ngClass]=" {'is-invalid': (register.controls['password'].errors && register.controls['password'].dirty), 'is-valid': !register.controls['password'].errors}"name="password" formControlName="password" class="form-control" autocomplete="off" placeholder="*Password">
+                        <ul class="help-block alert">
+                          <li  style="color: #e00d0d" *ngIf="register.controls['password'].errors?.required && register.controls['password'].dirty">Champ oblogatoire</li>
+                          <li  style="color: #e00d0d"  *ngIf="register.controls['password'].errors?.minlength && register.controls['password'].dirty || register.controls['password'].errors?.maxlength && register.controls['password'].dirty ">Minimum characters: 4, Maximum characters: 8</li>
+    <!--                      <li *ngIf="form.controls['password'].errors?.validatePassword && form.controls['password'].dirty">Must have at least one uppercase, lowercase, special character, and number</li>-->
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+    <!--                  <label>Confirmation mot de pasee</label>-->
+    <!--                  <div class="input-group mb-3">-->
+    <!--                    <input type="text" class="form-control" formControlName="confirmedPassword">-->
+    <!--                  </div>-->
+                      <div class="form-group">
+                        <label for="confirm">Confirmation mot de pasee</label>
+                        <div [ngClass]="{'is-invalid': (register.controls['confirmedPassword'].errors && register.controls['confirmedPassword'].dirty) || (register.errors?.matchingPasswords && register.controls['confirmedPassword'].dirty), 'is-valid': !register.controls['confirmedPassword'].errors && !register.errors?.matchingPasswords}">
+                          <input type="password" name="confirmedPassword" [ngClass]="{'is-invalid': (register.controls['confirmedPassword'].errors && register.controls['confirmedPassword'].dirty) || (register.errors?.matchingPasswords && register.controls['confirmedPassword'].dirty), 'is-valid': !register.controls['confirmedPassword'].errors && !register.errors?.matchingPasswords}" class="form-control" formControlName="confirmedPassword" autocomplete="off" placeholder="*Confirm Password">
+                          <ul class="help-block alert">
+    <!--                        <li *ngIf="register.controls['confirmedPassword'].errors?.required && register.controls['confirmedPassword'].dirty">This field is required</li>-->
+                            <li style="color: #e00d0d" *ngIf="register.errors?.matchingPasswords && register.controls['confirmedPassword'].dirty">Veuillez confirmer vortre mot de passe</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Option</label>
+                      <div class="input-group mb-3">
+                        <button type="button" [disabled]="register.invalid" (click)="saveUser()" class="btn btn-outline-primary btn-block"><i class="nav-icon fas fa-check"></i>Enregistrer</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" (click)="modalRef.hide()">Fermer</button>
+        </div>
+      </ng-template>
+      <div class="card">
+        <div class="card-header">
+          <div class="row mb-2">
+            <div class="col-md-8">
+             <h3 class="card-title">Gestion Utilisateurs</h3>
+            </div>
+            <div class="col-md-4">
+              <button type="button" (click)="onActived()" [disabled]="btnValidation || tailleSelect === 0" class="btn btn-sm btn-outline-primary ml-4 mr-4"> <span class="fas fa-user-lock "></span> Activer/Desactiver ({{tailleSelect}})</button>
+              <button type="button"  (click)="openModal(template)"  class="btn btn-sm btn-outline-primary mr-4"> <span class="fas fa-plus "></span> Ajouter</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-1">
+          </div>
+          <div class="col-sm-10">
+            <ejs-grid
+              #grid
+              [dataSource]='users'
+              [allowSelection]="true"
+              [selectionSettings]='selectionOptions'
+              [groupSettings]="groupOptions"
+              (rowSelected)='rowSelected($event)'
+              (rowDeselected)="rowDeSelected($event)"
+              [allowSorting]='true'
+              id="gridcomp"
+              allowPaging='true'
+              gridLines="Both"
+              rowHeight='38'
+            >
+          <e-columns>
+            <e-column type='checkbox' width="30" textAlign='center' ></e-column>
+            <e-column field='id' headerText="ID" textAlign='center' width="70"></e-column>
+            <e-column field='username' headerText='MATRICULE' [filter]='filter' clipMode='EllipsisWithTooltip' width='150'>
+            </e-column>
+            <e-column field='nom' headerText='NOM' textAlign='center'  width='120'></e-column>
+            <e-column field='prenom' headerText='PRENOM' textAlign='center'  width='150'></e-column>
+            <e-column field='fonction' headerText='FONCTION' textAlign='center'  width='200'></e-column>
+            <e-column field='roles' headerText='PROFILS'  width='150'>
+              <ng-template #template let-data>
+                <e-column>
+                  <a *ngFor="let  role of data.roles">
+                    {{role.roleName}} ,
+                  </a>
+                </e-column>
+              </ng-template>
+            </e-column>
+            <e-column field='actived' headerText="Statut"  textAlign='center'>
+              <ng-template #template let-data>
+                <div *ngIf="data.actived === true ;else login" class="statustemp e-activecolor">
+                  <span class="statustxt e-activecolor" textAlign='center' >Active</span>
+                </div>
+                <ng-template #login>
+                  <div class="statustemp e-inactivecolor">
+                    <span class="statustxt e-inactivecolor" textAlign='center' >Desactiver</span>
+                  </div>
+                </ng-template>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+          </div>
+          <div class="col-sm-1">
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
