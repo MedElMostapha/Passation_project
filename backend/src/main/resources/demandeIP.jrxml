@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demandeIP" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f2c428b-063c-4ef9-b909-89aaee4c19a0">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <parameter name="origine" class="java.lang.String"/>
+    <parameter name="destinataire" class="java.lang.String"/>
+    <parameter name="deadlineEstime" class="java.sql.Date"/>
+    <parameter name="description" class="java.lang.String"/>
+    <parameter name="sourceFinanciere" class="java.lang.String"/>
+    <parameter name="montant" class="java.lang.Double"/>
+    <parameter name="id" class="java.lang.Integer"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="96" splitType="Stretch">
+            <rectangle>
+                <reportElement x="-20" y="0" width="612" height="96" backcolor="#EDE8E8" uuid="072a4944-183e-4eaa-84fb-31cc56fa43ec"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="90" y="33" width="400" height="30" uuid="18a452d4-f1bd-435f-b2ab-dc2a48753e70"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Demande d'initiation d'une procédure]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="55" splitType="Stretch">
+            <textField>
+                <reportElement x="90" y="10" width="480" height="30" uuid="08c6911e-0aa9-4c6d-9307-97cfe94fc06a"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{origine}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="12" width="80" height="30" uuid="ef55f91f-3ce0-4c9a-a89a-8a6ce60f0235"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Origine : "]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <detail>
+        <band height="351" splitType="Stretch">
+            <textField>
+                <reportElement x="190" y="150" width="380" height="30" uuid="edaef431-d327-4f3a-b9cc-0ddf08cce7da"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{sourceFinanciere}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="310" y="45" width="251" height="40" uuid="6cf4c7db-d739-4650-b2ad-536c035bdee0"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{description}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="270" y="100" width="130" height="30" uuid="f9040671-bbcb-4dd8-a4b1-f3b50bc4d09e"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{deadlineEstime}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="110" y="0" width="450" height="30" uuid="b722cebc-b4a8-403e-9e0f-226aba0f167f"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{destinataire}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="230" y="250" width="340" height="30" uuid="a8a8f237-890b-4bae-887d-5ab4a041f196"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{montant}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="170" y="300" width="400" height="30" uuid="ba6d2cd9-c50f-4c13-85e4-7d2e91ef6ab4"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="199" width="570" height="30" uuid="4f412362-e9a9-4241-9a2e-24b0909c40a5"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Confïrmation de l'inscription de la dépense dans le Plan Annuel des achats :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="0" width="100" height="30" uuid="5560409f-4182-4f9c-a54f-a9c4c7f60c2d"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Destinataire : "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="150" width="180" height="30" uuid="a5e0baa8-c181-4d18-abc5-c13304013a3a"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[" Source de financement : "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="100" width="260" height="30" uuid="3695da94-1bd8-49c3-b191-354069e47bb2"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Délai estimé suivant programmation : "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="50" width="300" height="30" uuid="630de39a-c3c7-4981-8af3-a691b5d30ef9"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Descriptif sommaire du besoin à satisfaire : "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="300" width="160" height="30" uuid="fd38f71c-663d-407a-8190-8572843743c0"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["N° d'inscription PAA : "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="250" width="180" height="30" uuid="b2c2feaf-7792-451f-bc28-d44f02dd6bcf"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Montant estimé de la dépense : "]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

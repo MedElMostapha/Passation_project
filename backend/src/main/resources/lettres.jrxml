@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LetterOfInvitation" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="8d6a1e15-2db8-4e64-bc68-7884f53ad299">
+	<parameter name="ConsultantName" class="java.lang.String"/>
+	<parameter name="ConsultantAddress" class="java.lang.String"/>
+	<parameter name="Subject" class="java.lang.String"/>
+	<parameter name="AuthorityName" class="java.lang.String"/>
+	<title>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30" uuid="1e5f95a7-4f93-4f9e-baf6-4bdfd8d7e89b"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lettre d'invitation]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="600">
+			<textField>
+				<reportElement x="0" y="10" width="515" height="20" uuid="e7c8df33-4f21-4f4a-8b96-1c4f1b9a0c95"/>
+				<textFieldExpression><![CDATA["A Madame/Monsieur, " + $P{ConsultantName} ]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="515" height="20" uuid="7db34d3c-6f9f-4701-9d30-3d362b90c056"/>
+				<textFieldExpression><![CDATA["Objet : " + $P{Subject}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="60" width="515" height="60" uuid="b2c7b3d1-4b67-4c8d-988b-b9ac1d8f7dd1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{AuthorityName} + " vous adresse la présente lettre, pour vous inviter à participer à la compétition pour la réalisation des prestations d'études ou de contrôle de travaux " + $P{Subject} + ", tel que spécifié dans les Termes de Référence, inclus dans le dossier."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="120" width="515" height="139" uuid="a20dbec6-5e12-4bb8-8e6e-536b9c2fb0f2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[
+Vous êtes donc prié dès réception de la présente lettre, de confirmer votre intérêt pour cette mission, et de lui transmettre votre curriculum vitae actualisé.
+
+La comparaison des CVs sera faite par la Commission ad 'hoc sur la base de la formation académique et des expériences professionnelles pertinentes, et le cas échéant, de la connaissance des conditions locales, telles que la langue nationale, l’environnement du système administratif et organisationnel de l'Etat et ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="230" y="227" width="110" height="20" uuid="5e73ed0f-cc91-4f8d-b7b7-3e2fa541e4b2"/>
+				<textFieldExpression><![CDATA[$P{AuthorityName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="247" width="515" height="182" uuid="a3cfd155-5e12-4bb8-8e6e-536b9c2fb0f2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[
+A cet effet, les critères d’évaluation seront les suivants :
+i- Formation académique,
+ii- Expérience professionnelle pertinente pour la mission,
+
+Le consultant sélectionné doit être le plus expérimenté, le mieux qualifié et être pleinement capable de mener à bien la mission. L'Autorité Contractante négociera le contrat avec le consultant individuel, les termes et conditions du contrat, y compris des honoraires et autres dépenses à prix raisonnable.
+
+L’Autorité Contractante n’est pas tenue de donner suite à la présente procédure.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="430" width="515" height="20" uuid="617ce7ef-9a34-4265-bd95-93c399c62df5"/>
+				<textFieldExpression><![CDATA["Veuillez agréer, Madame/Monsieur, l’assurance de ma considération distinguée."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="460" width="515" height="20" uuid="d3520b35-fc0b-4899-a45c-8ea4b2d308cc"/>
+				<textFieldExpression><![CDATA[$P{AuthorityName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="490" width="515" height="20" uuid="5293d7b1-c5d1-4d2f-b138-fb14c7491b1d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[L'Ordonateur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="520" width="515" height="20" uuid="c6f4eb8e-ff33-4e99-8327-623f278e8422"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Signature]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
